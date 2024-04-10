@@ -1,0 +1,8 @@
+*.texpadtmp
+.DS_Store
+*.mexmaci64
+Output/
+Old/
+EikoFinslerLinear/Document/
+MongeFinslerSOCP/
+PressurelessEuler_Grid/

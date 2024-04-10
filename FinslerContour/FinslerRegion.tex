@@ -1,0 +1,141 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage[french]{babel}
+
+\usepackage{enumerate}
+\usepackage{url}
+\usepackage{epsf}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{verbatim}
+
+
+\voffset=-2cm
+%\voffset=-3cm
+\hoffset=-1.5cm
+\textwidth=16cm
+\textheight=23cm
+
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{wasysym}
+\providecommand*\showkeyslabelformat[1]{\hspace{-4mm}\underline{\normalfont\small\ttfamily#1}}
+\usepackage{stmaryrd}
+
+\usepackage{ gensymb }
+\usepackage{ esint }
+
+\usepackage{hyperref}
+\usepackage[notref]{showkeys}
+
+
+\usepackage{algorithm,algpseudocode,algorithmicx}
+%\usepackage{algpseudocode}
+%\usepackage{algorithm}
+
+\newtheorem{definition}{Definition}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{lemma}[definition]{Lemma}
+
+%\newenvironment{obviousProof}{\begin{proof}[Obvious]}{\end{proof}}
+\let\obviousProof\comment   \let\endobviousProof\endcomment
+
+\def\bR{{\mathbb R}}
+\def\mR{{\mathbb R}}
+\def\cE{{\mathcal E}}
+\DeclareMathOperator\rot{rot}
+\DeclareMathOperator\length{length}
+\def\<{\langle} \def\>{\rangle}
+
+\author{
+Jean-Marie Mirebeau
+}
+\begin{document}
+\title{
+Minimizing Chan-Vese type energies\\ using Finsler minimal paths.
+}
+\maketitle
+\date{}
+
+\section{Introduction}
+
+To each domain $\Omega\subset \mR^2$ attach the energy
+\begin{equation}
+\label{eqdef:EOmega}
+	\cE(\Omega) := \int_\Omega \rho+\int_{\partial \Omega} \sigma,
+\end{equation}
+where $\rho : \mR^2 \to \mR$ has arbitrary sign, and $\sigma : \mR^2 \to \mR_+^*$ is strictly positive. If $\rho$ has negative sign, then the integral over $\Omega$ acts as a balloon force.
+The objective is to (locally) minimize $\cE$ among domains $\Omega \subset \mR^2$.
+
+\begin{definition}
+	Let $\Omega\subset \mR^2$ be open, simply connected, with Lipschitz boundary, and let $x_0,x_1 \in \partial \Omega$. Then one can parametrize $\partial \Omega$ as the union of two Lipschitz curves $\gamma_+,\gamma_-$, with common endpoints $\gamma_+(0)=\gamma_-(0)=x_0$ and $\gamma_+(1)=\gamma_-(1)=x_1$, going respectively counter-clockwise and clockwise.
+	We write
+	\begin{equation*}
+		\Omega = [\gamma_+, \gamma_-].
+	\end{equation*}
+	Conversely, let $\gamma_+,\gamma_-$ be two curves which are Lipschitz, without  self intersections, and which do not intersect each other except at their common endpoints. Then perhaps exchanging the roles of $\gamma_+$ and $\gamma_-$ for orientation one has $\Omega = [\gamma_+, \gamma_-]$.
+	\end{definition}
+
+
+Let $\Omega = [\gamma_+, \gamma_-]$, and let $x_0=\gamma_+(0)=\gamma_-(0)$, $x_1=\gamma_+(1) = \gamma_-(1)$.
+We design neighborhoods $V_+, V_-$ of $\gamma_+, \gamma_-$, path lengths $\length_+, \length_-$ with respect to adequate Finsler metrics on $V+,V_-$, and a potential function $p : V_+\cap V_- \to \mR$.
+Then for any curves $\Gamma_+, \Gamma_-$ within $V_+,V_-$, originating from $x_0=\Gamma_+(0)=\Gamma_-(0)$, and with common endpoint $X_1$ one has 
+\begin{equation*}
+	\cE([\Gamma_+, \Gamma_-]) = \length_+(\Gamma_+) + \length_-(\Gamma_-) - p(X_1)+p(x_0).
+\end{equation*}
+Denote by $d_+, d_-$ the geodesic distance from $x_0$ with respect to $\length_+, \length_-$. Then for improving \eqref{eqdef:EOmega} it suffices to minimize
+\begin{equation*}
+	d_+(X_1)+d_-(X_1) - p(X_1)
+\end{equation*}
+and then extract shortest paths $\Gamma_+, \Gamma_-$. The paths are then reversed and exchanged $[-\Gamma_-, -\Gamma_+] = [\Gamma_+, \Gamma_-]$, in order to exchange the roles of $x_0,X_1$, and the procedure is repeated.
+
+\section{Defining the metrics}
+
+
+\begin{lemma} (*Which are the correct spaces ? What estimates on the growth of $\Omega$ ?*)
+	Let $V \subset \bR^2$ be a bounded domain, let $\gamma : [0,1] \to \bR^2$ be a Lipschitz curve without self-intersections, and let $\rho : V \to \bR^2$.
+	Then there exists $\omega : V \to \bR^2$ such that (*?? Probably not, but what is the right estimate ??*) $|\omega(x)| \leq \|\rho\|_\infty d(x,\gamma)$.
+\end{lemma}
+
+Let $V_+$ (resp.\ $V_-$) be a neighborhood of $\gamma_+$ (resp.\ $\gamma_-$), and $\omega_+ : V_+ \to \mR^2$ (resp.\ $\omega_-$) a solution to
+\begin{align*}
+	\rot \omega_+ &= \rho,
+	& \rot \omega_- &= - \rho.
+\end{align*}
+We choose these vector fields 
+
+We denoted $\rot \omega := \partial_1 \omega_2-\partial_2\omega_1$.
+By construction one has $\rot(\omega_+ + \omega_-) = 0$ on $V_+ \cap V_-$, hence there exists $p : V_+ \cap V_- \to \mR$ such that 
+\begin{equation*}
+	\omega_+ +\omega_- = \nabla p.
+\end{equation*}
+The solution $\omega_+$ to $\rot \omega_+ = \rho$ can be extended globally on $\mR^2$, hence denoting by $\tau$ the counter-clockwise tangent vector to $\partial \Omega$ we can write
+\begin{align*}
+	\int_\Omega \rho &= \int_\Omega \rot \omega_+\\
+	&= \int_{\partial \Omega} \<\omega_+,\tau\>\\
+	&= - \int_0^1 \<\omega_+,\gamma_+'\> + \int_0^1 \<\omega_+,\gamma_-'\>\\
+	&= - \int_0^1 \<\omega_+,\gamma_+'\> + \int_0^1 \<\nabla p - \omega_-,\gamma_-'\>\\
+	&= - \int_0^1 \<\omega_+,\gamma_+'\> - \int_0^1 \<\omega_-,\gamma_-'\> + p(y)-p(x).
+\end{align*}
+
+For any path 
+(*...*)
+
+\begin{equation*}
+	\cE([\gamma_+,\gamma_-]) = \length_+(\gamma_+) + \length_-(\gamma_-).
+\end{equation*}
+
+\begin{remark}[Divergence theorem]
+Denoting by $R$ the counter-clockwise rotation by $\pi/2$, one has $\rot \omega = \nabla\cdot R \omega$ and $\tau = R n$ where $n$ is the exterior normal.
+Thus using the identity $R^T = -R$
+\begin{align*}
+	\int_\Omega \rot \omega = \int_\Omega \nabla \cdot R \omega = \int_{\partial \Omega} \<R \omega , n\> = \int_{\partial \Omega} \<\omega, R^T n\> = -\int_{\partial \Omega} \<\omega,\tau\>.
+\end{align*}
+\end{remark}
+
+\section{Implementation}
+
+%\bibliographystyle{alpha}
+%\bibliography{../../AllPapers}
+
+\end{document}
